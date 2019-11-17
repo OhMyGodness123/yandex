@@ -9,6 +9,7 @@ class Example(QWidget):
 
     def __init__(self):
         super().__init__()
+        uic.loadUi('UI.ui', self)
         self.initUI()
         self.flag = 1
 
@@ -25,7 +26,7 @@ class Example(QWidget):
         if self.flag == 1:
             qp.setBrush(QColor(255, 0, 0))
             dia = randint(1, 100)
-            qp.drawEllipse(50, 300, dia, dia)
+            qp.drawEllipse(100, 100, dia, dia)
             self.flag = 0
 
     def run(self):
