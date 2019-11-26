@@ -24,7 +24,7 @@ class Example(QWidget):
 
     def runi(self, qp):
         if self.flag == 1:
-            qp.setBrush(QColor(255, 0, 0))
+            qp.setBrush(QColor(255, 255, 0))
             dia = randint(1, 100)
             qp.drawEllipse(100, 100, dia, dia)
             self.flag = 0
