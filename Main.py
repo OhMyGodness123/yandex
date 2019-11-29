@@ -1,5 +1,4 @@
 import sys
-from PyQt5 import uic
 from PyQt5.QtWidgets import QWidget, QApplication, QPushButton
 from PyQt5.QtGui import QPainter, QColor
 from random import randint
@@ -9,11 +8,13 @@ class Example(QWidget):
 
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI.ui', self)
         self.initUI()
         self.flag = 1
 
     def initUI(self):
+        self.btn = QPushButton('Кнопка', self)
+        self.btn.resize(self.btn.sizeHint())
+        self.btn.move(100, 200)
         self.btn.clicked.connect(self.run)
 
     def paintEvent(self, event):
