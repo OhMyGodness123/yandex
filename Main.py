@@ -1,37 +1,28 @@
 import sys
-from PyQt5.QtWidgets import QWidget, QApplication, QPushButton
-from PyQt5.QtGui import QPainter, QColor
-from random import randint
-from UI import Ui_Form
+from PyQt5.QtWidgets import QWidget, QApplication, QTableWidget, QTableWidgetItem
+import sqlite3
+from PyQt5 import uic
 
 
-class Example(QWidget, Ui_Form):
+class Example(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.setupUi(self)
+        uic.loadUi('UI.ui', self)
         self.initUI()
-        self.flag = 1
 
     def initUI(self):
-        self.btn.clicked.connect(self.run)
-
-    def paintEvent(self, event):
-        qp = QPainter()
-        qp.begin(self)
-        self.runi(qp)
-        qp.end()
-
-    def runi(self, qp):
-        if self.flag == 1:
-            qp.setBrush(QColor(randint(0, 255), randint(0, 255), randint(0, 255)))
-            dia = randint(1, 100)
-            qp.drawEllipse(100, 100, dia, dia)
-            self.flag = 0
-
-    def run(self):
-        self.flag = 1
-        self.update()
+        con = sqlite3.connect('coffee.db')
+        cur = con.cursor()
+        result = cur.execute("SELECT * FROM coffee").fetchall()
+        self.tab.setRowCount(len(result))
+        self.tab.setColumnCount(len(result[0]))
+        self.tab.setHorizontalHeaderLabels(["ID", "Название сорта", "Степень обжарки", "молотый/в зернах",
+                                            "Вкус", "Цена", "Размер"])
+        self.titles = [description[0] for description in cur.description]
+        for i, elem in enumerate(result):
+            for j, val in enumerate(elem):
+                self.tab.setItem(i, j, QTableWidgetItem(str(val)))
 
 
 if __name__ == '__main__':
